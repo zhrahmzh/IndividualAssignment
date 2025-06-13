@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    android:background="#121947">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ELECTRICITY BILL ESTIMATOR"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Select Month -->
+    <TextView
+        android:id="@+id/label_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Month:"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/text_title"
+        android:layout_marginTop="24dp" />
+
+    <Spinner
+        android:id="@+id/spinner_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_month"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#FFFFFF"
+        android:foregroundTint="#FFFFFF" />
+
+    <!-- kWh Input -->
+    <TextView
+        android:id="@+id/label_kwh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Electricity Usage (kWh):"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/spinner_month"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/input_kwh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#AAAAAA"
+        android:backgroundTint="#FFFFFF"
+        android:layout_below="@id/label_kwh"
+        android:layout_marginTop="8dp" />
+
+
+    <!-- Rebate Input -->
+    <TextView
+        android:id="@+id/label_rebate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rebate Percentage (0–5%):"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/input_kwh"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/input_rebate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_rebate"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#f6d992"
+        android:inputType="numberDecimal" />
+
+    <!-- Calculate Button -->
+    <Button
+        android:id="@+id/btn_calculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate and Save"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:backgroundTint="#f6d992"
+        android:layout_below="@id/input_rebate"
+        android:layout_marginTop="24dp" />
+
+    <!-- Result Display -->
+    <TextView
+        android:id="@+id/text_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your result will appear here"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:padding="16dp"
+        android:layout_below="@id/btn_calculate"
+        android:layout_marginTop="24dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp" />
+
+    <!-- View History Button -->
+    <Button
+        android:id="@+id/btn_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View History"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:backgroundTint="#f6d992"
+        android:layout_below="@id/text_result"
+        android:layout_marginTop="24dp" />
+
+    <ImageButton
+        android:id="@+id/btn_about"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="About"
+        android:src="@drawable/profile"
+        android:scaleType="centerInside"
+        android:tint="@null" />
+
+
+</RelativeLayout>
