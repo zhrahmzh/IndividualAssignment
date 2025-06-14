@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Your main Electricity Bill Estimator -->
+        <!-- My main Electricity Bill Estimator -->
         <activity android:name=".MainActivity" />
 
         <!-- Other activities -->

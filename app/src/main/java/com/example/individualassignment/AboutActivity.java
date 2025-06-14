@@ -26,7 +26,7 @@ public class AboutActivity extends AppCompatActivity {
                 "<b>Copyright:</b><br>" +
                 "© 2025 Siti Fatimahtulzahra Binti Hamzah. All rights reserved. <br><br>" +
                 "<b>GitHub Repository:</b><br>" +
-                "<a href='https://github.com/yourus'>https://github.com/yourus</a>";
+                "<a href='https://github.com/zhrahmzh/IndividualAssignment.git'>https://github.com/zhrahmzh/IndividualAssignment.git</a>";
 
         aboutText.setText(Html.fromHtml(info));
         aboutText.setMovementMethod(LinkMovementMethod.getInstance());
