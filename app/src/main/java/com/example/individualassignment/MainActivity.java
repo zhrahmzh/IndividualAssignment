@@ -1,10 +1,10 @@
-// MainActivity.java
 package com.example.individualassignment;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import android.content.Intent;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.DecimalFormat;
@@ -12,7 +12,8 @@ import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
 
     Spinner spinnerMonth;
-    EditText inputKwh, inputRebate;
+    EditText inputKwh;
+    RadioGroup rebateGroup;
     TextView textResult;
     Button btnCalculate;
     Button btnHistory;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         spinnerMonth = findViewById(R.id.spinner_month);
         inputKwh = findViewById(R.id.input_kwh);
-        inputRebate = findViewById(R.id.input_rebate);
+        rebateGroup = findViewById(R.id.rebate_group);
         textResult = findViewById(R.id.text_result);
         btnCalculate = findViewById(R.id.btn_calculate);
         btnHistory = findViewById(R.id.btn_history);
@@ -35,17 +36,13 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DataHelper(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.months_array, R.layout.spinner_item_white); // Custom white text layout
+                R.array.months_array, R.layout.spinner_item_white);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMonth.setAdapter(adapter);
 
         inputKwh.setTextColor(getResources().getColor(android.R.color.white));
         inputKwh.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
         inputKwh.setBackgroundTintList(getResources().getColorStateList(android.R.color.white));
-
-        inputRebate.setTextColor(getResources().getColor(android.R.color.white));
-        inputRebate.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
-        inputRebate.setBackgroundTintList(getResources().getColorStateList(android.R.color.white));
 
         btnCalculate.setOnClickListener(v -> calculateBill());
 
@@ -63,24 +60,27 @@ public class MainActivity extends AppCompatActivity {
     private void calculateBill() {
         String month = spinnerMonth.getSelectedItem().toString();
         String kwhStr = inputKwh.getText().toString().trim();
-        String rebateStr = inputRebate.getText().toString().trim();
 
-        if (kwhStr.isEmpty() || rebateStr.isEmpty()) {
-            Toast.makeText(this, "Please enter both kWh and rebate.", Toast.LENGTH_SHORT).show();
+        if (kwhStr.isEmpty()) {
+            showAlert("Input Error", "Please enter electricity usage.");
             return;
         }
+
+        int selectedId = rebateGroup.getCheckedRadioButtonId();
+        if (selectedId == -1) {
+            showAlert("Missing Input", "Please select a rebate percentage.");
+            return;
+        }
+
+        RadioButton selectedRadio = findViewById(selectedId);
+        String rebateStr = selectedRadio.getText().toString().replace("%", "");
 
         try {
             int kwh = Integer.parseInt(kwhStr);
             double rebate = Double.parseDouble(rebateStr);
 
-            if (rebate < 0 || rebate > 5) {
-                Toast.makeText(this, "Rebate must be between 0 and 5%.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             if (kwh < 0) {
-                Toast.makeText(this, "Electricity usage must be positive.", Toast.LENGTH_SHORT).show();
+                showAlert("Invalid Usage", "Electricity usage must be a positive number.");
                 return;
             }
 
@@ -96,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
             if (inserted) {
                 Toast.makeText(this, "Bill saved successfully.", Toast.LENGTH_SHORT).show();
                 inputKwh.setText("");
-                inputRebate.setText("");
+                rebateGroup.clearCheck();
                 spinnerMonth.setSelection(0);
             } else {
-                Toast.makeText(this, "Failed to save bill.", Toast.LENGTH_SHORT).show();
+                showAlert("Database Error", "Failed to save bill.");
             }
 
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid number input.", Toast.LENGTH_SHORT).show();
+            showAlert("Invalid Input", "Please enter valid numbers.");
         }
     }
 
@@ -119,5 +119,13 @@ public class MainActivity extends AppCompatActivity {
             total = 200 * 0.218 + 100 * 0.334 + 300 * 0.516 + (kwh - 600) * 0.546;
         }
         return total;
+    }
+
+    private void showAlert(String title, String message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
     }
 }
